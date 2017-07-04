@@ -1,0 +1,22 @@
+<h1>Search a flight</h1>
+<div>
+	<%= form_for :search, url: root_url, method: :get do |f|%>
+		<%= f.label :from %>
+		<%= f.collection_select(:from_code, @airports, :id, :city_code,
+														prompt: "Select destination" ) %>
+
+		<%= f.label :to %>
+		<%= f.collection_select(:to_code, @airports, :id, :city_code,
+		                        prompt: "Select airport"  ) %>
+
+		<%= f.label :number_of_passangers %>
+		<% passagers_number = (1..4).to_a %>
+		<%= f.select :num_tickets, options_for_select(passagers_number),
+		             prompt: "Number of passangers" %>
+
+		<%= f.label :date %>
+		<%= f.date_select :date, {order: [:month, :day, :year], prompt: { day: 'Select day', month: 'Select month', year: 'Select year' }, start_year: Date.today.year, end_year: Date.today.year + 100}, {required: true} %>
+
+		<%= f.submit "Search"%>
+	<%end%>
+</div>

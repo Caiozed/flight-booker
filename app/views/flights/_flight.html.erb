@@ -1,0 +1,12 @@
+<%= form_for :flight, url: new_booking_path, method: :get do |f|%>
+		<%= f.hidden :from_code %>
+		<%= f.hidden :to_code %>
+		<p>Departing from: <%= flight.from_airport.city_code%> </p>
+		<p>Destination: <%= flight.to_airport.city_code%> </p>
+		<p>Aproximated duration: 
+			<%= distance_of_time_in_words(flight.duration.minute) %>
+		</p>
+		<p>Departing date: <%= flight.start_datetime %></p>
+
+		<%= f.radio_button :selected, "Select"%>
+<%end%>

@@ -15,8 +15,37 @@
 		             prompt: "Number of passangers" %>
 
 		<%= f.label :date %>
-		<%= f.date_select :date, {order: [:month, :day, :year], prompt: { day: 'Select day', month: 'Select month', year: 'Select year' }, start_year: Date.today.year, end_year: Date.today.year + 100}, {required: true} %>
+		<%= f.date_field :date %>
 
 		<%= f.submit "Search"%>
 	<%end%>
 </div>
+
+<% unless @flights.nil? %>
+	<% if @flights.any? %>
+		<%= form_for :flight, url: new_booking_path, method: :get do |f|%>
+			<%= f.hidden_field :num_tickets, value: params[:search][:num_tickets] %>
+			<div>
+				<ul>
+					<% @flights.each do |flight|%>
+						<li>
+							<p>Departing from:  <%= flight.from_airport.city_code%> </p>
+							<p>Destination: 		<%= flight.to_airport.city_code%> </p>
+							<p>Aproximated duration: 
+																	<%= distance_of_time_in_words(flight.duration.minute) %>
+							</p>
+							<p>Departing date: 	<%= flight.start_datetime %></p>
+
+							<%= f.radio_button :flight_id, flight.id%>
+							<%= f.label :selected, "Select"%>
+						</li>
+					<%end%>
+				</ul>
+			</div>
+			<%= f.submit "Book flight"%>
+		<%end%>
+
+	<%else%>
+		<h2>No flights this day</h2>
+	<%end%>
+<%end%>

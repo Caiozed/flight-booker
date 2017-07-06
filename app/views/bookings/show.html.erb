@@ -1,0 +1,8 @@
+<h1>Flight n°: <%= @flight.id %>, Booking n°: <%= @booking.id %>, </h1>
+<p>Derpart from: <%= @flight.from_airport.city_code%></p>
+<p>Destination: <%= @flight.to_airport.city_code%></p>
+<p>Date: <%= @flight.start_datetime%></p>
+<h1>Passangers:</h1>
+<% @passengers.each do |passenger|%>
+<p><%= passenger.name%>, <%= passenger.email%></p>
+<%end%>

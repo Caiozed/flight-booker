@@ -1,0 +1,20 @@
+<h1>Flight n°: <%= @flight.id %></h1>
+<p>Derpart from: <%= @flight.from_airport.city_code%></p>
+<p>Destination: <%= @flight.to_airport.city_code%></p>
+<p>Date: <%= @flight.start_datetime%></p>
+<%= form_for @booking do |b|%>
+	<%= b.hidden_field :flight_id, value: @flight.id%>
+	<%= b.hidden_field :num_tickets, value: @num_tickets%>
+	<% @passengers.each do |passenger| %>
+		<%= fields_for "passengers[]", passenger do |p| %>
+			<div>	
+				<%= p.label :name %>
+				<%= p.text_field :name %>
+
+				<%= p.label :email %>
+				<%= p.text_field :email %>
+			</div>
+		<%end%>
+	<%end%>
+	<%= b.submit "Complete booking" %>
+<%end%>

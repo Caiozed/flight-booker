@@ -6,6 +6,7 @@ class BookingsController < ApplicationController
   end
 
   def create
+    messages = []
   	@flight = Flight.find(params[:booking][:flight_id])
   	@book_params = booking_params
   	form_objects(@book_params[:num_tickets].to_i)
@@ -17,8 +18,11 @@ class BookingsController < ApplicationController
   			unless passenger.save
   				@booking.reload.destroy
   				render :new and return
+        else
+          messages << PassangerMailer.thank_you_email(passenger)
   			end
   		end
+        messages.each {|msg| msg.deliver_now}
   		  redirect_to booking_path(@booking)
   	else
   		render :new
